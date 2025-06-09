@@ -16,13 +16,24 @@
     flex-direction: column;
     width: 300px;
     gap: 15px;
+    border: solid 4px #00ff99;
+    border-radius: 15px;
+    padding: 42px;
+
+    .form-group {
+      color: #e0e0e0;
+      font-family: "Share Tech Mono", monospace;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
 
     input {
       background-color: #1a1a1a;
       border: 1px solid var(--accent-color);
       padding: 12px;
-      color: white;
-      font-family: 'Share Tech Mono', monospace;
+      color: #00ff99;
+      font-family: "Share Tech Mono", monospace;
 
       &:focus {
         outline: none;
