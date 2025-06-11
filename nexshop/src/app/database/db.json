@@ -1,0 +1,19 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "Admin",
+      "email": "admin@nexshop.com",
+      "senha": "admin123",
+      "perfil": "administrador"
+    },
+    {
+      "id": 2,
+      "nome": "raphael",
+      "email": "raphael@teste.com.br",
+      "senha": "R123",
+      "perfil": "usuario"
+    }
+  ],
+  "logins": []
+}

@@ -31,6 +31,10 @@
     </div>
 
     <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+    <div class="cadastro-link">
+      <p>Não tem uma conta?</p>
+      <button type="button" (click)="irParaCadastro()">Cadastre-se</button>
+    </div>
 
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
   </form>

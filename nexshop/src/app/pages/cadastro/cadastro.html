@@ -1,0 +1,23 @@
+<div class="cadastro-container">
+  <h2>Cadastro de Usuário</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label>Nome:</label>
+    <input type="text" [(ngModel)]="usuario.nome" name="nome" required />
+
+    <label>Email:</label>
+    <input type="email" [(ngModel)]="usuario.email" name="email" required />
+
+    <label>Senha:</label>
+    <input type="password" [(ngModel)]="usuario.senha" name="senha" required />
+
+    <label>Perfil:</label>
+    <select [(ngModel)]="usuario.perfil" name="perfil" required>
+      <option value="admin">Admin</option>
+      <option value="usuario">Usuário</option>
+    </select>
+
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <p *ngIf="mensagem">{{ mensagem }}</p>
+</div>

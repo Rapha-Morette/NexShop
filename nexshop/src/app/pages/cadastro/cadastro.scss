@@ -1,4 +1,4 @@
-.login-container {
+.cadastro-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,15 +20,13 @@
     border-radius: 15px;
     padding: 42px;
 
-    .form-group {
+    label {
       color: #e0e0e0;
       font-family: "Share Tech Mono", monospace;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
     }
 
-    input {
+    input,
+    select {
       background-color: #1a1a1a;
       border: 1px solid var(--accent-color);
       padding: 12px;
@@ -42,34 +40,24 @@
     }
 
     button {
+      background-color: transparent;
+      border: 1px solid var(--accent-color);
+      padding: 12px;
+      border-radius: 5px;
+      color: #00ff99;
+      font-family: "Share Tech Mono", monospace;
+      cursor: pointer;
       font-weight: bold;
+
+      &:hover {
+        background-color: #00ff9911;
+      }
     }
   }
-}
-
-.cadastro-link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
 
   p {
-    color: #e0e0e0;
-    margin: 0 0 5px 0;
-    font-size: 14px;
-  }
-
-  button {
-    background-color: transparent;
-    border: 1px solid var(--accent-color);
-    padding: 10px;
-    border-radius: 5px;
     color: #00ff99;
-    cursor: pointer;
+    margin-top: 20px;
     font-family: "Share Tech Mono", monospace;
-
-    &:hover {
-      background-color: #00ff9911;
-    }
   }
 }
