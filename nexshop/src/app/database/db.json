@@ -1,19 +1,26 @@
 {
   "usuarios": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Admin",
       "email": "admin@nexshop.com",
       "senha": "admin123",
       "perfil": "administrador"
     },
     {
-      "id": 2,
+      "id": "2",
       "nome": "raphael",
       "email": "raphael@teste.com.br",
       "senha": "R123",
       "perfil": "usuario"
     }
   ],
-  "logins": []
+  "logins": [
+    {
+      "id": "1",
+      "usuarioId": 2,
+      "ip": "189.114.189.11",
+      "dataHora": "2025-06-18T05:35:46.740Z"
+    }
+  ]
 }

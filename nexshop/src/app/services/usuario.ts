@@ -18,21 +18,35 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Retorna todos os usuários cadastrados
+   */
   getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.apiUrl);
   }
 
+  /**
+   * Cria um novo usuário com ID numérico sequencial
+   */
   criarUsuario(usuario: Usuario): Observable<Usuario> {
     return this.http.get<Usuario[]>(`${this.apiUrl}?_sort=id&_order=desc`).pipe(
       switchMap((usuarios) => {
         const ultimoId = usuarios[0]?.id ?? 0;
         const novoId = typeof ultimoId === 'number' ? ultimoId + 1 : 1;
-        const novoUsuario = { ...usuario, id: novoId };
+
+        const novoUsuario: Usuario = {
+          ...usuario,
+          id: Number(novoId),
+        };
+
         return this.http.post<Usuario>(this.apiUrl, novoUsuario);
       })
     );
   }
 
+  /**
+   * Autentica o usuário pelo nome ou e-mail
+   */
   login(identificador: string, senha: string): Observable<Usuario[]> {
     return this.http
       .get<Usuario[]>(`${this.apiUrl}?senha=${senha}`)
