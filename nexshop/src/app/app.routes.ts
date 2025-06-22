@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { Login } from './pages/login/login';
-import { Cadastro } from './pages/cadastro/cadastro';
+import { Login } from './features/login/login';
+// import { Cadastro } from './pages/cadastro/cadastro';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -8,7 +8,7 @@ export const routes: Routes = [
   {
     path: 'cadastro',
     loadComponent: () =>
-      import('./pages/cadastro/cadastro').then(
+      import('./features/cadastro/cadastro').then(
         (m) => m.Cadastro
       ),
   },

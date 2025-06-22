@@ -57,5 +57,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-BD - json-server --watch nexshop/src/app/database/db.json --port 3000
+
+Projeto - ng serve
+BD - json-server --watch db.json --port 3000
 back-end - node index.js
