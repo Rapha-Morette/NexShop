@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { Login } from './features/login/login';
+import { Mfa } from './features/mfa/mfa';
 // import { Cadastro } from './pages/cadastro/cadastro';
 
 export const routes: Routes = [
@@ -12,4 +13,5 @@ export const routes: Routes = [
         (m) => m.Cadastro
       ),
   },
+  { path: 'mfa', component: Mfa }
 ];

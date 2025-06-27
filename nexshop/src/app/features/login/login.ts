@@ -13,17 +13,15 @@ import { Usuario } from '../../core/models/usuario.model';
   standalone: true,
   templateUrl: './login.html',
   styleUrls: ['./login.scss'],
-  imports: [CommonModule, FormsModule]  // Corrige erro de ngModel, ngIf, ngForm
+  imports: [CommonModule, FormsModule], // Corrige erro de ngModel, ngIf, ngForm
 })
 export class Login {
   username = '';
   password = '';
   errorMessage = '';
-  nivel: 'baixo' | 'medio' | 'alto' = 'baixo';
-  mostrarMfa = false;
-  codigoDigitado = '';
   usuarioLogado?: Usuario;
   ipUsuario = '';
+  nivel: 'baixo' | 'medio' | 'alto' = 'baixo';
 
   constructor(
     private usuarioService: UsuarioService,
@@ -35,49 +33,76 @@ export class Login {
 
   // Inicia o fluxo de login
   onSubmit(): void {
-    this.usuarioService.login(this.username, this.password).subscribe((usuarios) => {
-      if (!usuarios.length) {
-        this.errorMessage = 'Credenciais inválidas';
-        return;
-      }
+    this.usuarioService
+      .login(this.username, this.password)
+      .subscribe((usuarios) => {
+        if (!usuarios.length) {
+          this.errorMessage = 'Credenciais inválidas';
+          return;
+        }
 
-      this.usuarioLogado = usuarios[0];
+        this.usuarioLogado = usuarios[0];
 
-      // Obtém IP do usuário
-      this.obterIpUsuario().then((ip) => {
-        this.ipUsuario = ip;
+        // Obtém IP do usuário
+        this.obterIpUsuario().then((ip) => {
+          this.ipUsuario = ip;
 
-        // Verifica se o IP já foi usado antes por esse usuário
-        this.loginService.obterLoginsPorUsuario(this.usuarioLogado!.id!).subscribe((logs) => {
-          const ipJaUsado = logs.some((l) => l.ip === ip);
+          // Verifica se o IP já foi usado antes por esse usuário
+          this.loginService
+            .obterLoginsPorUsuario(this.usuarioLogado!.id!)
+            .subscribe((logs) => {
+              const ipJaUsado = logs.some((l) => l.ip === ip);
 
-          // Consulta AbuseIPDB
-          this.verificacaoIpService.verificarIp(ip).subscribe((info) => {
-            const score = info.data.abuseConfidenceScore;
-            const ipMalicioso = score >= 50;
-            const horarioSuspeito = this.verificacaoIpService.isHorarioSuspeito();
-            const foraDoBrasil = this.verificacaoIpService.isForaDoBrasil(ip);
+              // Serviço AbuseIPDB
+              this.verificacaoIpService
+                .verificarIpCompleto(ip)
+                .subscribe((info) => {
+                  const {
+                    ipMalicioso,
+                    foraDoBrasil,
+                    abuseConfidenceScore,
+                    countryCode,
+                  } = info;
+                  const horarioSuspeito =
+                    this.verificacaoIpService.isHorarioSuspeito();
 
-            // Lógica de risco
-            if (ipMalicioso || horarioSuspeito || foraDoBrasil) {
-              this.nivel = 'alto';
-            } else if (!ipJaUsado && score >= 10) {
-              this.nivel = 'medio';
-            } else {
-              this.nivel = 'baixo';
-            }
+                  // logs
+                  console.log('===== VERIFICAÇÃO DE LOGIN =====');
+                  console.log('Usuário:', this.usuarioLogado?.email);
+                  console.log('IP:', ip);
+                  console.log('Score AbuseIPDB:', abuseConfidenceScore);
+                  console.log('IP Malicioso:', ipMalicioso);
+                  console.log('Horário suspeito:', horarioSuspeito);
+                  console.log('Fora do Brasil:', foraDoBrasil);
 
-            // Define o que exibir conforme o risco
-            if (this.nivel === 'baixo') {
-              this.finalizarLogin();
-            } else {
-              this.mfaService.enviarCodigo(this.usuarioLogado!.email);
-              this.mostrarMfa = true;
-            }
-          });
+                  // lógica de risco
+                  if (!ipJaUsado || ipMalicioso) {
+                    if (ipMalicioso || horarioSuspeito || foraDoBrasil) {
+                      this.nivel = 'alto';
+                    } else {
+                      this.nivel = 'medio';
+                    }
+                  } else {
+                    this.nivel = 'baixo';
+                  }
+
+                  console.log('Nível de risco calculado:', this.nivel); // agora sim valor atualizado
+
+                  if (this.nivel === 'baixo') {
+                    this.finalizarLogin();
+                  } else {
+                    this.mfaService.setDadosMfa({
+                      usuarioId: this.usuarioLogado!.id!,
+                      email: this.usuarioLogado!.email,
+                      ip: this.ipUsuario,
+                      nivel: this.nivel,
+                    });
+                    this.router.navigate(['/mfa']);
+                  }
+                });
+            });
         });
       });
-    });
   }
 
   // Finaliza o login e salva o acesso no db.json
@@ -86,25 +111,12 @@ export class Login {
       usuarioId: this.usuarioLogado!.id!,
       ip: this.ipUsuario,
       dataHora: new Date().toISOString(),
+      risco: this.nivel,
     };
 
     this.loginService.registrarLoginComLimite(registro).subscribe(() => {
       this.router.navigate(['/home']);
     });
-  }
-
-  // Valida código MFA e simula biometria no nível alto
-  verificarCodigoMfa(): void {
-    if (!this.mfaService.validarCodigo(this.codigoDigitado)) {
-      this.errorMessage = 'Código MFA inválido';
-      return;
-    }
-
-    if (this.nivel === 'alto') {
-      alert('Simulação: reconhecimento facial realizado!');
-    }
-
-    this.finalizarLogin();
   }
 
   // Obtém IP público do usuário

@@ -22,15 +22,21 @@ export class LoginService {
         );
 
         if (mesmoIp) {
-          const atualizado = { ...mesmoIp, dataHora: registro.dataHora };
-          return this.http.put<RegistroLogin>(`${this.apiUrl}/${mesmoIp.id}`, atualizado)
-            .pipe(catchError(() =>
+          const atualizado: RegistroLogin = {
+            ...mesmoIp,
+            dataHora: registro.dataHora,
+            risco: registro.risco, // inclui o risco
+          };
+          return this.http.put<RegistroLogin>(`${this.apiUrl}/${mesmoIp.id}`, atualizado).pipe(
+            catchError(() =>
               this.http.post<RegistroLogin>(this.apiUrl, {
                 usuarioId: registro.usuarioId,
                 ip: registro.ip,
-                dataHora: registro.dataHora
+                dataHora: registro.dataHora,
+                risco: registro.risco,
               })
-            ));
+            )
+          );
         }
 
         if (logins.length >= 5) {
@@ -40,7 +46,8 @@ export class LoginService {
               this.http.post<RegistroLogin>(this.apiUrl, {
                 usuarioId: registro.usuarioId,
                 ip: registro.ip,
-                dataHora: registro.dataHora
+                dataHora: registro.dataHora,
+                risco: registro.risco,
               })
             )
           );
@@ -49,7 +56,8 @@ export class LoginService {
         return this.http.post<RegistroLogin>(this.apiUrl, {
           usuarioId: registro.usuarioId,
           ip: registro.ip,
-          dataHora: registro.dataHora
+          dataHora: registro.dataHora,
+          risco: registro.risco,
         });
       })
     );

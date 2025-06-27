@@ -61,3 +61,74 @@ For more information on using the Angular CLI, including detailed command refere
 Projeto - ng serve
 BD - json-server --watch db.json --port 3000
 back-end - node index.js
+
+Atual estrututura do projeto: 
+
+NexShop/
+├── nexshop/                            # Frontend Angular (App principal)
+│   ├── angular.json
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── tsconfig*.json
+│   ├── README.md
+│   ├── database/
+│   │   └── db.json                     # Base de dados simulada (json-server)
+│   ├── public/                         # Arquivos públicos (favicon, logos)
+│   │   ├── favicon.ico
+│   │   ├── emblema.png
+│   │   └── logo-mini.ico
+│   ├── src/
+│   │   ├── index.html
+│   │   ├── styles.scss
+│   │   ├── main.ts
+│   │   ├── main.server.ts
+│   │   ├── server.ts
+│   │   ├── assets/                    # Imagens e recursos estáticos
+│   │   │   ├── emblema.png
+│   │   │   └── logo.png
+│   │   └── app/                       # Código principal da aplicação Angular
+│   │       ├── app.config.ts
+│   │       ├── app.config.server.ts
+│   │       ├── app.routes.ts
+│   │       ├── app.routes.server.ts
+│   │       ├── app.ts
+│   │       ├── app.scss
+│   │       ├── app.html
+│   │       ├── app.spec.ts
+│   │       ├── core/                  # SDK: models e serviços reutilizáveis
+│   │       │   ├── models/
+│   │       │   │   ├── usuario.model.ts
+│   │       │   │   ├── registro-login.model.ts
+│   │       │   │   └── dados-mfa.model.ts        # ✅ Novo model para MFA
+│   │       │   └── services/
+│   │       │       ├── usuario.service.ts
+│   │       │       ├── login.service.ts
+│   │       │       ├── mfa.service.ts            # ✅ MFA com código aleatório
+│   │       │       ├── verificacao-ip.service.ts # ✅ Toda lógica de IP consolidada aqui
+│   │       │       ├── usuario.spec.ts
+│   │       │       ├── login.spec.ts
+│   │       │       ├── mfa.spec.ts
+│   │       │       └── verificacao-ip.spec.ts
+│   │       └── features/              # Componentes de funcionalidades (UI)
+│   │           ├── login/
+│   │           │   ├── login.ts
+│   │           │   ├── login.html
+│   │           │   ├── login.scss
+│   │           │   └── login.spec.ts
+│   │           ├── cadastro/
+│   │           │   ├── cadastro.ts
+│   │           │   ├── cadastro.html
+│   │           │   ├── cadastro.scss
+│   │           │   └── cadastro.spec.ts
+│   │           └── mfa/
+│   │               ├── mfa.ts
+│   │               ├── mfa.html
+│   │               ├── mfa.scss
+│
+├── nexshop-backend/                   # Backend (json-server)
+│   ├── index.js
+│   ├── package.json
+│   ├── package-lock.json
+│   └── node_modules/
+│
+└── README.md

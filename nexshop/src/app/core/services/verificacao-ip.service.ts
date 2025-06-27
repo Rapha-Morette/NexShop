@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
+
+export interface ResultadoVerificacaoIp {
+  ipMalicioso: boolean;
+  foraDoBrasil: boolean;
+  abuseConfidenceScore: number;
+  countryCode: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class VerificacaoIpService {
@@ -8,8 +15,21 @@ export class VerificacaoIpService {
 
   constructor(private http: HttpClient) {}
 
-  verificarIp(ip: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}?ip=${ip}`);
+  // Método que já retorna resultado completo da verificação do IP
+  verificarIpCompleto(ip: string): Observable<ResultadoVerificacaoIp> {
+    return this.http.get<any>(`${this.apiUrl}?ip=${ip}`).pipe(
+      map(response => {
+        const score = response.data.abuseConfidenceScore;
+        const countryCode = response.data.countryCode;
+
+        return {
+          ipMalicioso: score >= 50,
+          foraDoBrasil: this.isForaDoBrasil(countryCode),
+          abuseConfidenceScore: score,
+          countryCode: countryCode
+        };
+      })
+    );
   }
 
   isHorarioSuspeito(): boolean {
@@ -17,10 +37,7 @@ export class VerificacaoIpService {
     return hora >= 0 && hora < 4;
   }
 
-  isForaDoBrasil(ip: string): boolean {
-    // Simulado para exemplo, você pode integrar ip-api.com/json/IP para real.
-    return (
-      !ip.startsWith('177.') && !ip.startsWith('189.') && !ip.startsWith('191.')
-    );
+  isForaDoBrasil(countryCode: string): boolean {
+    return countryCode !== 'BR';
   }
 }

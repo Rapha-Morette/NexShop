@@ -3,4 +3,5 @@ export interface RegistroLogin {
   usuarioId: string;
   ip: string;
   dataHora: string;
+  risco: 'baixo' | 'medio' | 'alto';
 }

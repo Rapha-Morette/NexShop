@@ -39,16 +39,5 @@
     </div>
 
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-
-    <div *ngIf="mostrarMfa">
-      <label for="codigo">Código MFA</label>
-      <input
-        type="text"
-        id="codigo"
-        [(ngModel)]="codigoDigitado"
-        name="codigoDigitado"
-      />
-      <button type="button" (click)="verificarCodigoMfa()">Validar MFA</button>
-    </div>
   </form>
 </div>
