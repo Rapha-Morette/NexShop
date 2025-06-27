@@ -14,17 +14,10 @@ export class UsuarioService {
   }
 
   criarUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.get<Usuario[]>(`${this.apiUrl}?_sort=id&_order=desc`).pipe(
-      switchMap((usuarios) => {
-        const ultimoId = Number(usuarios[0]?.id ?? 0); // ← Forçar número
-        const novoId = ultimoId + 1;
-        const novoUsuario: Usuario = {
-          ...usuario,
-          id: novoId,
-        };
-        return this.http.post<Usuario>(this.apiUrl, novoUsuario);
-      })
-    );
+    const usuarioSemId = { ...usuario };
+    delete (usuarioSemId as any).id; // remove id para json-server gerar
+
+    return this.http.post<Usuario>(this.apiUrl, usuarioSemId);
   }
 
   login(identificador: string, senha: string): Observable<Usuario[]> {

@@ -7,6 +7,7 @@
     height="300"
     style="margin-bottom: 20px"
   />
+
   <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
     <div class="form-group">
       <label for="username">Usuário</label>
@@ -31,11 +32,23 @@
     </div>
 
     <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
+
     <div class="cadastro-link">
       <p>Não tem uma conta?</p>
       <button type="button" (click)="irParaCadastro()">Cadastre-se</button>
     </div>
 
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+    <div *ngIf="mostrarMfa">
+      <label for="codigo">Código MFA</label>
+      <input
+        type="text"
+        id="codigo"
+        [(ngModel)]="codigoDigitado"
+        name="codigoDigitado"
+      />
+      <button type="button" (click)="verificarCodigoMfa()">Validar MFA</button>
+    </div>
   </form>
 </div>

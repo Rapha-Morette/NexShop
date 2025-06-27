@@ -1,6 +1,6 @@
 export interface RegistroLogin {
-  id?: number;
-  usuarioId: number;
+  id?: string;
+  usuarioId: string;
   ip: string;
   dataHora: string;
 }
