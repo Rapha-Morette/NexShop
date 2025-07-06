@@ -5,19 +5,21 @@ import { Router } from '@angular/router';
 import { MfaService } from '../../core/services/mfa.service';
 import { LoginService } from '../../core/services/login.service';
 import { RegistroLogin } from '../../core/models/registro-login.model';
+import { Facial } from '../facial/facial';
 
 @Component({
   selector: 'app-mfa',
   standalone: true,
   templateUrl: './mfa.html',
   styleUrls: ['./mfa.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, Facial]
 })
 export class Mfa implements OnInit {
   codigoDigitado = '';
   codigoEnviado = '';
   errorMessage = '';
   nivel: 'baixo' | 'medio' | 'alto' = 'medio';
+  fotoCapturada = false;
 
   constructor(
     private mfaService: MfaService,
@@ -43,10 +45,6 @@ export class Mfa implements OnInit {
       return;
     }
 
-    if (this.nivel === 'alto') {
-      alert('Reconhecimento facial simulado! ✅');
-    }
-
     const dados = this.mfaService.getDadosMfa();
 
     const registro: RegistroLogin = {
@@ -59,5 +57,10 @@ export class Mfa implements OnInit {
     this.loginService.registrarLoginComLimite(registro).subscribe(() => {
       this.router.navigate(['/home']);
     });
+  }
+
+  onFotoCapturada(base64: string): void {
+    this.fotoCapturada = true;
+    console.log('📸 Foto facial capturada (login alto).');
   }
 }

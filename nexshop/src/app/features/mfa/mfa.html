@@ -11,7 +11,20 @@
         required
       />
     </div>
-    <button type="submit" [disabled]="mfaForm.invalid">Validar Código</button>
+
+    <!-- Se for alto risco, mostra reconhecimento facial -->
+    <div *ngIf="nivel === 'alto'" class="facial-verificacao">
+      <h3>Verificação Facial Obrigatória</h3>
+      <app-facial (fotoCapturada)="onFotoCapturada($event)"></app-facial>
+    </div>
+
+    <button
+      type="submit"
+      [disabled]="mfaForm.invalid || (nivel === 'alto' && !fotoCapturada)"
+    >
+      Validar Código
+    </button>
+
     <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
   </form>
 </div>

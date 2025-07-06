@@ -4,4 +4,5 @@ export interface Usuario {
   email: string;
   senha: string;
   perfil: string;
+  fotoBase64?: string; 
 }

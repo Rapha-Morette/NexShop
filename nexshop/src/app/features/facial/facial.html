@@ -1,0 +1,19 @@
+<div class="facial-container">
+  <video #video autoplay *ngIf="!fotoCapturadaBase64"></video>
+
+  <canvas #canvas style="display: none"></canvas>
+
+  <div *ngIf="fotoCapturadaBase64">
+    <p>Foto capturada:</p>
+    <img [src]="fotoCapturadaBase64" alt="Foto capturada" />
+  </div>
+
+  <button
+    *ngIf="!fotoCapturadaBase64"
+    (click)="capturarFoto()"
+    type="button"
+    class="btn-capturar"
+  >
+    Capturar Foto
+  </button>
+</div>

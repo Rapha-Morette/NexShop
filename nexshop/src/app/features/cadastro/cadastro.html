@@ -20,4 +20,7 @@
   </form>
 
   <p *ngIf="mensagem">{{ mensagem }}</p>
+
+  <app-facial (fotoCapturada)="usuario.fotoBase64 = $event"></app-facial>
+
 </div>

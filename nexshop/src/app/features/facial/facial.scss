@@ -1,0 +1,32 @@
+.facial-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  video {
+    width: 280px;
+    border: 2px solid #555;
+    border-radius: 8px;
+  }
+
+  img {
+    width: 280px;
+    border: 2px solid #4caf50;
+    border-radius: 8px;
+  }
+
+  .btn-capturar {
+    padding: 8px 16px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-capturar:hover {
+    background-color: #1565c0;
+  }
+}

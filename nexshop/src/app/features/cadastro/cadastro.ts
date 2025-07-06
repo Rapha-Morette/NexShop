@@ -1,23 +1,25 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UsuarioService } from '../../core/services/usuario.service';
 import { Usuario } from '../../core/models/usuario.model';
-import { Router } from '@angular/router';
+import { Facial } from '../facial/facial';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './cadastro.html',
   styleUrls: ['./cadastro.scss'],
+  imports: [CommonModule, FormsModule, Facial]
 })
 export class Cadastro {
   usuario: Usuario = {
     nome: '',
     email: '',
     senha: '',
-    perfil: 'usuario', // valor padrão
+    perfil: 'usuario',
+    fotoBase64: '' // <- inicializa como string vazia
   };
 
   mensagem = '';

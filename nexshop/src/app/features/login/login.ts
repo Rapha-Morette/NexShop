@@ -51,13 +51,13 @@ export class Login {
           this.loginService
             .obterLoginsPorUsuario(this.usuarioLogado!.id!)
             .subscribe((logs) => {
-              const ipJaUsado = logs.some((l) => l.ip === ip);
+              var ipJaUsado = logs.some((l) => l.ip === ip);
 
               // Serviço AbuseIPDB
               this.verificacaoIpService
                 .verificarIpCompleto(ip)
                 .subscribe((info) => {
-                  const {
+                  var {
                     ipMalicioso,
                     foraDoBrasil,
                     abuseConfidenceScore,
@@ -74,6 +74,10 @@ export class Login {
                   console.log('IP Malicioso:', ipMalicioso);
                   console.log('Horário suspeito:', horarioSuspeito);
                   console.log('Fora do Brasil:', foraDoBrasil);
+
+                  //teste
+                  ipJaUsado = false
+                  ipMalicioso = true
 
                   // lógica de risco
                   if (!ipJaUsado || ipMalicioso) {
