@@ -8,8 +8,22 @@ export class MfaService {
 
   enviarCodigo(email: string): string {
     this.codigoGerado = this.gerarCodigo();
-    console.log(`📧 Código MFA enviado para: ${email}`);
-    console.log('🔐 Código MFA:', this.codigoGerado);
+
+    fetch('http://localhost:3002/enviar-codigo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, codigo: this.codigoGerado }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('✅ Código enviado:', data);
+        console.log(`📧 Código MFA enviado para: ${email}`);
+        console.log('🔐 Código MFA:', this.codigoGerado);
+      })
+      .catch((err) => {
+        console.error('❌ Erro ao enviar código:', err);
+      });
+
     return this.codigoGerado;
   }
 

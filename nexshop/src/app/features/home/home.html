@@ -1,0 +1,19 @@
+<!-- Cabeçalho -->
+<header class="cabecalho">
+  <img src="assets/logo.png" alt="Logo" class="logo" />
+  <button class="botao-carrinho" (click)="irParaCarrinho()">🛒 Carrinho</button>
+</header>
+
+<!-- Conteúdo principal -->
+<div class="home-container">
+  <h2>Produtos em Destaque</h2>
+
+  <div class="produtos">
+    <div class="produto" *ngFor="let p of produtos">
+      <img [src]="p.imagem" [alt]="p.nome" />
+      <h3>{{ p.nome }}</h3>
+      <p class="preco">R$ {{ p.preco | number: '1.2-2' }}</p>
+      <button (click)="adicionarAoCarrinho(p)">Adicionar ao Carrinho</button>
+    </div>
+  </div>
+</div>

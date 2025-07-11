@@ -75,7 +75,7 @@ export class Login {
                   console.log('Horário suspeito:', horarioSuspeito);
                   console.log('Fora do Brasil:', foraDoBrasil);
 
-                  //teste
+                  // //teste alto 
                   ipJaUsado = false
                   ipMalicioso = true
 
@@ -90,7 +90,7 @@ export class Login {
                     this.nivel = 'baixo';
                   }
 
-                  console.log('Nível de risco calculado:', this.nivel); // agora sim valor atualizado
+                  console.log('Nível de risco calculado:', this.nivel); 
 
                   if (this.nivel === 'baixo') {
                     this.finalizarLogin();

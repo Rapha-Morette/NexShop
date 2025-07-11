@@ -9,9 +9,11 @@ export const routes: Routes = [
   {
     path: 'cadastro',
     loadComponent: () =>
-      import('./features/cadastro/cadastro').then(
-        (m) => m.Cadastro
-      ),
+      import('./features/cadastro/cadastro').then((m) => m.Cadastro),
   },
-  { path: 'mfa', component: Mfa }
+  { path: 'mfa', component: Mfa },
+  {
+    path: 'home',
+    loadComponent: () => import('./features/home/home').then((m) => m.Home),
+  },
 ];
