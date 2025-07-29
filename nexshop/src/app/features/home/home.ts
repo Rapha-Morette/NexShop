@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { MonitoramentoComportamentoService } from '../../core/services/monitoramento-comportamento.service';
 
 interface Produto {
   id: number;
@@ -15,7 +17,7 @@ interface Produto {
   styleUrls: ['./home.scss'],
   imports: [CommonModule],
 })
-export class Home {
+export class Home implements OnInit {
   produtos: Produto[] = [
     {
       id: 1,
@@ -37,13 +39,41 @@ export class Home {
     },
   ];
 
+  constructor(
+    private monitoramento: MonitoramentoComportamentoService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    // Começa o monitoramento de comportamento
+    this.monitoramento.iniciarMonitoramento();
+
+    // Observa o resultado de comportamento suspeito
+    this.monitoramento.suspeita$.subscribe((suspeito) => {
+      if (suspeito) {
+        this.encerrarSessaoPorSeguranca();
+      }
+    });
+  }
+
   adicionarAoCarrinho(produto: Produto) {
     alert(`Produto adicionado ao carrinho: ${produto.nome}`);
-    // Aqui no futuro você pode salvar no localStorage ou em um service real
+    // Futuro: salvar no localStorage ou serviço real
   }
 
   irParaCarrinho() {
     alert('Redirecionar para o carrinho');
-    // Ou use: this.router.navigate(['/carrinho']);
+    // Futuro: this.router.navigate(['/carrinho']);
+  }
+
+  private encerrarSessaoPorSeguranca(): void {
+    alert('🚨 Atividade suspeita detectada. Sua sessão foi encerrada por segurança.');
+    localStorage.removeItem('usuarioLogado');
+    this.router.navigate(['/login']);
+  }
+
+  // Opcional: interromper monitoramento ao sair da tela
+  ngOnDestroy(): void {
+    this.monitoramento.pararMonitoramento();
   }
 }
