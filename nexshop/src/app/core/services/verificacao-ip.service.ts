@@ -15,10 +15,16 @@ export class VerificacaoIpService {
 
   constructor(private http: HttpClient) {}
 
+  verificarIP(): Observable<{ nivel: 'baixo' | 'medio' | 'alto'; ip: string }> {
+    return this.http.get<{ nivel: 'baixo' | 'medio' | 'alto'; ip: string }>(
+      'http://localhost:3001/verificar-ip'
+    );
+  }
+
   // Método que já retorna resultado completo da verificação do IP
   verificarIpCompleto(ip: string): Observable<ResultadoVerificacaoIp> {
     return this.http.get<any>(`${this.apiUrl}?ip=${ip}`).pipe(
-      map(response => {
+      map((response) => {
         const score = response.data.abuseConfidenceScore;
         const countryCode = response.data.countryCode;
 
@@ -26,7 +32,7 @@ export class VerificacaoIpService {
           ipMalicioso: score >= 50,
           foraDoBrasil: this.isForaDoBrasil(countryCode),
           abuseConfidenceScore: score,
-          countryCode: countryCode
+          countryCode: countryCode,
         };
       })
     );

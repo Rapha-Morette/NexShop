@@ -41,7 +41,7 @@ export class MonitoramentoComportamentoService {
 
     this.mouseListener = (e: MouseEvent) => {
       const velocidade = Math.sqrt(e.movementX ** 2 + e.movementY ** 2);
-      if (velocidade > 150) {
+      if (velocidade > 350) {
         this.emitirSuspeita('Movimento de mouse muito rápido.');
       }
     };
