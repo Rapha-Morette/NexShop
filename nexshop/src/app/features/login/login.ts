@@ -76,7 +76,7 @@ export class Login {
                   console.log('Fora do Brasil:', foraDoBrasil);
 
                   // //teste alto 
-                  // ipJaUsado = false
+                  //ipJaUsado = false
                   // ipMalicioso = true
 
                   // lógica de risco
@@ -91,6 +91,7 @@ export class Login {
                   }
 
                   console.log('Nível de risco calculado:', this.nivel); 
+                  localStorage.setItem('nivelRisco', this.nivel);
 
                   if (this.nivel === 'baixo') {
                     this.finalizarLogin();
@@ -117,6 +118,9 @@ export class Login {
       dataHora: new Date().toISOString(),
       risco: this.nivel,
     };
+
+    //coloca o Ip em localStorage
+    localStorage.setItem('ipLogin', this.ipUsuario);
 
     this.loginService.registrarLoginComLimite(registro).subscribe(() => {
       this.router.navigate(['/home']);

@@ -21,4 +21,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/carrinho/carrinho').then((m) => m.Carrinho),
   },
+  {
+    path: 'mfa-compra',
+    loadComponent: () =>
+      import('./features/mfa-compra/mfa-compra').then((m) => m.MfaCompra),
+  },
 ];

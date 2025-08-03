@@ -1,0 +1,17 @@
+<div class="mfa-container">
+  <h2>Autenticação MFA</h2>
+  <form (ngSubmit)="verificarCodigo()" #mfaForm="ngForm">
+    <div class="form-group">
+      <label for="codigo">Código MFA:</label>
+      <input
+        type="text"
+        id="codigo"
+        name="codigo"
+        [(ngModel)]="codigoDigitado"
+        required
+      />
+    </div>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  </form>
+</div>
