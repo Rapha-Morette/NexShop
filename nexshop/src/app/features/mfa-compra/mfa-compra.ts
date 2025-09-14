@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   standalone: true,
   templateUrl: './mfa-compra.html',
   styleUrls: ['./mfa-compra.scss'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule],
 })
 export class MfaCompra implements OnInit {
   codigoDigitado = '';
@@ -34,7 +34,19 @@ export class MfaCompra implements OnInit {
     }
 
     this.nivel = dados.nivel;
-    this.codigoEnviado = this.mfaService.enviarCodigo(dados.email);
+
+    // 🔥 Recupera usuário do localStorage se o email não veio no serviço
+    let email = dados.email;
+    if (!email) {
+      const usuarioLogado = localStorage.getItem('usuarioLogado');
+      if (!usuarioLogado) {
+        this.router.navigate(['/login']);
+        return;
+      }
+      email = JSON.parse(usuarioLogado).email;
+    }
+
+    this.codigoEnviado = this.mfaService.enviarCodigo(email);
   }
 
   verificarCodigo(): void {

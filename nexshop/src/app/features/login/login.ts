@@ -75,9 +75,18 @@ export class Login {
                   console.log('Horário suspeito:', horarioSuspeito);
                   console.log('Fora do Brasil:', foraDoBrasil);
 
-                  // //teste alto 
-                  //ipJaUsado = false
-                  // ipMalicioso = true
+                  // //teste alto
+                  ipJaUsado = false
+                  ipMalicioso = true
+
+                  // Após login válido
+                  localStorage.setItem(
+                    'usuarioLogado',
+                    JSON.stringify({
+                      id: this.usuarioLogado!.id!,
+                      email: this.usuarioLogado?.email,
+                    })
+                  );
 
                   // lógica de risco
                   if (!ipJaUsado || ipMalicioso) {
@@ -90,8 +99,11 @@ export class Login {
                     this.nivel = 'baixo';
                   }
 
-                  console.log('Nível de risco calculado:', this.nivel); 
+                  console.log('Nível de risco calculado:', this.nivel);
                   localStorage.setItem('nivelRisco', this.nivel);
+
+                  // ✅ garante que sempre salva o IP, independente do risco
+                  localStorage.setItem('ipLogin', this.ipUsuario);
 
                   if (this.nivel === 'baixo') {
                     this.finalizarLogin();
