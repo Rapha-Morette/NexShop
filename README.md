@@ -31,7 +31,7 @@ NexShop/
 │   ├── src/
 │   │   ├── assets/              # Imagens da loja e produtos
 │   │   └── app/
-│   │       ├── core/            # SDK reutilizável
+│   │       ├── core/            # SDK antifraude reutilizável
 │   │       │   ├── models/
 │   │       │   │   ├── usuario.model.ts
 │   │       │   │   ├── dados-mfa.model.ts
@@ -41,19 +41,23 @@ NexShop/
 │   │       │       ├── login.service.ts
 │   │       │       ├── mfa.service.ts
 │   │       │       ├── verificacao-ip.service.ts
-│   │       │       └── monitoramento-comportamento.service.ts  # (SDK antifraude)
-│   │       └── features/       # Funcionalidades da aplicação
+│   │       │       ├── verificacao-seguranca.service.ts
+│   │       │       └── monitoramento-comportamento.service.ts
+│   │       └── features/        # Funcionalidades visuais da aplicação
 │   │           ├── login/
 │   │           ├── cadastro/
 │   │           ├── mfa/
-│   │           ├── facial/     # Captura facial via webcam
-│   │           └── home/       # Página de produtos com segurança
-├── nexshop-backend/            # Mock de verificação de IP (porta 3001)
+│   │           ├── mfa-compra/  # MFA exigido na finalização de compra
+│   │           ├── facial/      # Captura facial via webcam
+│   │           ├── carrinho/    # Carrinho com antifraude
+│   │           └── home/        # Página de produtos com monitoramento
+├── nexshop-backend/             # Mock de verificação de IP (porta 3001)
 │   └── index.js
-├── nexshop-email-api/          # API Node.js real para envio de e-mails (porta 3002)
+├── nexshop-email-api/           # API Node.js real para envio de e-mails (porta 3002)
 │   ├── index.js
 │   └── .env
 └── README.md
+
 ```
 
 ---
@@ -86,6 +90,20 @@ Para aumentar a proteção contra bots ou acessos automatizados, a **página de 
 | Movimentos de mouse muito rápidos        | Sinal de automação |
 
 ---
+
+## 🛒 Fluxo de Compra Segura
+
+1. Ao finalizar a compra, o sistema:
+
+- Verifica se o IP do login ainda é o mesmo (localStorage.ipLogin);
+
+- Verifica o nível de risco atual do IP;
+
+- Exige MFA adicional na compra se necessário (mfa-compra);
+
+- Bloqueia compra se o risco atual for alto.
+
+2. Caso o usuário tente comprar com sessão inválida (IP ausente ou modificado), a sessão é encerrada.
 
 ## ▶️ Instruções de Execução
 
@@ -139,11 +157,7 @@ ng serve
 
 ## 🧹 Futuras melhorias
 
-- Validação real de imagem facial (comparação biométrica);
-- Integração com outras formas de MFA (ex: TOTP, SMS);
 - Exportação do SDK antifraude como biblioteca npm;
-- Dashboard para logs e controle de risco;
-- Tela de carrinho com integração antifraude.
 
 ---
 
