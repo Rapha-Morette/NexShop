@@ -76,8 +76,8 @@ export class Login {
                   console.log('Fora do Brasil:', foraDoBrasil);
 
                   // //teste alto
-                  ipJaUsado = false
-                  ipMalicioso = true
+                  // ipJaUsado = false
+                  // ipMalicioso = true
 
                   // Após login válido
                   localStorage.setItem(

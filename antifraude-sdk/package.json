@@ -1,0 +1,13 @@
+{
+  "name": "antifraude-sdk",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/core": "^17.0.0",
+    "@angular/common": "^17.0.0",
+    "@angular/common/http": "^17.0.0",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "author": "Raphael Morete",
+  "license": "MIT"
+}

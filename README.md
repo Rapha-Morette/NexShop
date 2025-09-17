@@ -21,6 +21,23 @@ Este projeto consiste em uma aplicação Angular projetada como base para um **S
 
 ```
 NexShop/
+├── antifraude-sdk/              # SDK antifraude (independente e reutilizável)
+│   ├── package.json
+│   └── src/
+│       └── lib             # Ponto de entrada do SDK
+│         ├── index.ts             # Ponto de entrada do SDK
+│         ├── models/              # Modelos de dados compartilhados
+│         │   ├── usuario.model.ts
+│         │   ├── dados-mfa.model.ts
+│         │   └── registro-login.model.ts
+│         └── services/            # Serviços centrais do SDK
+│             ├── usuario.service.ts
+│             ├── login.service.ts
+│             ├── mfa.service.ts
+│             ├── verificacao-ip.service.ts
+│             ├── verificacao-seguranca.service.ts
+│             └── monitoramento-comportamento.service.ts
+│
 ├── nexshop/                     # Aplicação principal (Angular)
 │   ├── angular.json
 │   ├── package.json
@@ -152,12 +169,6 @@ ng serve
   "fotoBase64": "data:image/png;base64,iVBORw0KGgoAAAANS..."
 }
 ```
-
----
-
-## 🧹 Futuras melhorias
-
-- Exportação do SDK antifraude como biblioteca npm;
 
 ---
 
